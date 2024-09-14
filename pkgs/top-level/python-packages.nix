@@ -10647,6 +10647,8 @@ self: super: with self; {
 
   pysequoia = callPackage ../development/python-modules/pysequoia { };
 
+  pyseries = callPackage ../development/python-modules/pyseries { };
+
   pyschemes = callPackage ../development/python-modules/pyschemes { };
 
   pyschlage = callPackage ../development/python-modules/pyschlage { };
