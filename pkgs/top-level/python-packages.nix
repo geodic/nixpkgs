@@ -18315,6 +18315,8 @@ self: super: with self; {
     python3 = python;
   });
 
+  yoto-api = callPackage ../development/python-modules/yoto-api { };
+
   youless-api = callPackage ../development/python-modules/youless-api { };
 
   youseedee = callPackage ../development/python-modules/youseedee { };
