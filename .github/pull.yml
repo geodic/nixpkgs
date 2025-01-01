@@ -1,0 +1,8 @@
+version: "1"
+rules:
+  - base: master
+    upstream: NixOS:master
+    mergeMethod: rebase
+  - base: patched
+    upstream: NixOS:master
+    mergeMethod: rebase
