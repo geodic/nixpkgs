@@ -11141,11 +11141,11 @@
     githubId = 13179;
   };
   jopejoe1 = {
-    email = "johannes@joens.email";
+    email = "nixpkgs@missing.ninja";
     matrix = "@jopejoe1:matrix.org";
     github = "jopejoe1";
     githubId = 34899572;
-    name = "Johannes Jöns";
+    name = "jopejoe1";
   };
   jordanisaacs = {
     name = "Jordan Isaacs";
