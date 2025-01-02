@@ -6948,8 +6948,6 @@ self: super: with self; {
 
   keyring = callPackage ../development/python-modules/keyring { };
 
-  keyring_24 = callPackage ../development/python-modules/keyring_24 { };
-
   keyring-pass = callPackage ../development/python-modules/keyring-pass { };
 
   keyrings-cryptfile = callPackage ../development/python-modules/keyrings-cryptfile { };
@@ -18368,6 +18366,8 @@ self: super: with self; {
   }).overrideAttrs (_: {
     pname = "z3-solver";
   }))).python;
+
+  zabbix-utils = callPackage ../development/python-modules/zabbix-utils { };
 
   zadnegoale = callPackage ../development/python-modules/zadnegoale { };
 
