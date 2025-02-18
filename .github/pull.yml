@@ -1,5 +1,5 @@
 version: "1"
 rules:
-  - base: main
-    upstream: wei:master
+  - base: master
+    upstream: NixOS:master
     mergeMethod: hardreset
