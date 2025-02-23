@@ -6,39 +6,56 @@
   wrapGAppsHook4,
   glib,
   nix-update-script,
+  stdenv,
+  meson,
+  ninja,
+  cargo,
+  rustc,
+  sqlite,
+  openssl,
 }:
 
-rustPlatform.buildRustPackage rec {
+stdenv.mkDerivation rec {
   pname = "waytrogen";
-  version = "0.5.8";
+  version = "0.7.1";
 
   src = fetchFromGitHub {
     owner = "nikolaizombie1";
     repo = "waytrogen";
     tag = version;
-    hash = "sha256-tq5cC0Z0kmrYopOGbdoAERBHQXrAw799zWdQP06rTYw=";
+    hash = "sha256-Y83l6GKuaH+976MTOo03saVBh6gDegxyo3WRsRA+iQI=";
   };
 
-  cargoHash = "sha256-05YfQBezDbQ8KfNvl/4Av5vf/rxJU3Ej6RDgSnSfjtM=";
+  useFetchCargoVendor = true;
+  cargoDeps = rustPlatform.fetchCargoVendor {
+    inherit src;
+    name = "${pname}-${version}";
+    hash = "sha256-t3bDgY1Jtc/lE3WOnmti12shwsmSX3HhGBtYjesQ7hk=";
+  };
 
   nativeBuildInputs = [
     pkg-config
     wrapGAppsHook4
+    meson
+    ninja
+    rustPlatform.cargoSetupHook
+    cargo
+    rustc
   ];
 
   buildInputs = [
     glib
+    sqlite
+    openssl
   ];
 
-  postBuild = ''
-    install -Dm644 org.Waytrogen.Waytrogen.gschema.xml -t $out/share/gsettings-schemas/$name/glib-2.0/schemas
-    glib-compile-schemas $out/share/gsettings-schemas/$name/glib-2.0/schemas
-  '';
+  preBuild = ''export OUT_PATH=$out'';
 
-  postInstall = ''
-    install -Dm644 waytrogen.desktop $out/share/applications/waytrogen.desktop
-    install -Dm644 README-Assets/WaytrogenLogo.svg $out/share/icons/hicolor/scalable/apps/waytrogen.svg
-  '';
+  env = {
+    OPENSSL_NO_VENDOR = 1;
+  };
+
+  mesonFlags = [ "-Dcargo_features=nixos" ];
 
   passthru.updateScript = nix-update-script { };
 
@@ -52,7 +69,10 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://github.com/nikolaizombie1/waytrogen";
     changelog = "https://github.com/nikolaizombie1/waytrogen/releases/tag/${version}";
     license = lib.licenses.unlicense;
-    maintainers = with lib.maintainers; [ genga898 ];
+    maintainers = with lib.maintainers; [
+      genga898
+      nikolaizombie1
+    ];
     mainProgram = "waytrogen";
     platforms = lib.platforms.linux;
   };

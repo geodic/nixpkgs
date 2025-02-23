@@ -46,10 +46,11 @@ with lib.maintainers;
 
   android = {
     members = [
-      numinit
-      hadilq
-      RossComputerGuy
       adrian-gierakowski
+      hadilq
+      johnrtitor
+      numinit
+      RossComputerGuy
     ];
     scope = "Maintain Android-related tooling in nixpkgs.";
     githubTeams = [ "android" ];
@@ -469,7 +470,6 @@ with lib.maintainers;
   gnome-circle = {
     members = [
       aleksana
-      dawidd6
       getchoo
       michaelgrahamevans
     ];
@@ -521,6 +521,20 @@ with lib.maintainers;
     shortName = "Home Assistant";
   };
 
+  hyprland = {
+    members = [
+      donovanglover
+      fufexan
+      johnrtitor
+      khaneliman
+      NotAShelf
+    ];
+    githubTeams = [ "hyprland" ];
+    scope = "Maintain Hyprland compositor and ecosystem";
+    shortName = "Hyprland";
+    enableFeatureFreezePing = true;
+  };
+
   infisical = {
     members = [ akhilmhdh ];
     scope = "Maintain Infisical";
@@ -532,7 +546,6 @@ with lib.maintainers;
       cleverca22
       disassembler
       manveru
-      nrdxp
     ];
     scope = "Input-Output Global employees, which maintain critical software";
     shortName = "Input-Output Global employees";
@@ -756,7 +769,6 @@ with lib.maintainers;
       mguentner
       ralith
       dandellion
-      sumnerevans
       nickcao
       teutat3s
     ];
@@ -1145,7 +1157,10 @@ with lib.maintainers;
   };
 
   zig = {
-    members = [ figsoda ];
+    members = [
+      figsoda
+      RossComputerGuy
+    ];
     scope = "Maintain the Zig compiler toolchain and nixpkgs integration.";
     shortName = "Zig";
     enableFeatureFreezePing = true;

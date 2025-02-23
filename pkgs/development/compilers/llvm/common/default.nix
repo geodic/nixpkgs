@@ -124,12 +124,22 @@ let
               ];
               "llvm/gnu-install-dirs.patch" = [
                 {
+                  after = "20";
+                  path = ../20;
+                }
+                {
                   after = "18";
+                  before = "20";
                   path = ../18;
                 }
               ];
               "llvm/gnu-install-dirs-polly.patch" = [
                 {
+                  after = "20";
+                  path = ../20;
+                }
+                {
+                  before = "20";
                   after = "18";
                   path = ../18;
                 }
@@ -337,7 +347,6 @@ let
         mkExtraBuildCommands0 cc
         + ''
           ln -s "${targetLlvmLibraries.compiler-rt-no-libc.out}/lib" "$rsrc/lib"
-          ln -s "${targetLlvmLibraries.compiler-rt-no-libc.out}/share" "$rsrc/share"
         '';
       mkExtraBuildCommands =
         cc:
@@ -484,12 +493,23 @@ let
               (lib.versionAtLeast metadata.release_version "17" && lib.versionOlder metadata.release_version "19")
               [
                 # Fixes test-suite on glibc 2.40 (https://github.com/llvm/llvm-project/pull/100804)
-                (fetchpatch2 {
+                (fetchpatch {
                   url = "https://github.com/llvm/llvm-project/commit/1e8df9e85a1ff213e5868bd822877695f27504ad.patch";
-                  hash = "sha256-EX+PYGicK73lsL/J0kSZ4S5y1/NHIclBddhsnV6NPPI=";
+                  hash = "sha256-mvBlG2RxpZPFnPI7jvCMz+Fc8JuM15Ye3th1FVZMizE=";
                   stripLen = 1;
                 })
-              ];
+              ]
+          ++
+            lib.optional (lib.versions.major metadata.release_version == "20")
+              # Fix OrcJIT tests with page sizes > 16k
+              # PR: https://github.com/llvm/llvm-project/pull/127115
+              (
+                fetchpatch {
+                  url = "https://github.com/llvm/llvm-project/commit/415607e10b56d0e6c4661ff1ec5b9b46bf433cba.patch";
+                  stripLen = 1;
+                  hash = "sha256-vBbuduJB+NnNE9qtR93k64XKrwvc7w3vowjL/aT+iEA=";
+                }
+              );
         pollyPatches =
           [ (metadata.getVersionFile "llvm/gnu-install-dirs-polly.patch") ]
           ++ lib.optional (lib.versionAtLeast metadata.release_version "15")
@@ -502,9 +522,11 @@ let
       llvm = tools.libllvm;
 
       tblgen = callPackage ./tblgen.nix {
-        patches = builtins.filter
-          # Crude method to drop polly patches if present, they're not needed for tblgen.
-          (p: (!lib.hasInfix "-polly" p)) tools.libllvm.patches;
+        patches =
+          builtins.filter
+            # Crude method to drop polly patches if present, they're not needed for tblgen.
+            (p: (!lib.hasInfix "-polly" p))
+            tools.libllvm.patches;
         clangPatches = [
           # Would take tools.libclang.patches, but this introduces a cycle due
           # to replacements depending on the llvm outpath (e.g. the LLVMgold patch).
@@ -519,19 +541,21 @@ let
             (metadata.getVersionFile "clang/purity.patch")
             # https://reviews.llvm.org/D51899
             (metadata.getVersionFile "clang/gnu-install-dirs.patch")
-
+          ]
+          ++ lib.optionals (lib.versionOlder metadata.release_version "20") [
             # https://github.com/llvm/llvm-project/pull/116476
             # prevent clang ignoring warnings / errors for unsuppored
             # options when building & linking a source file with trailing
             # libraries. eg: `clang -munsupported hello.c -lc`
             ./clang/clang-unsupported-option.patch
           ]
-          ++ lib.optional (lib.versions.major metadata.release_version == "13")
-            # Revert of https://reviews.llvm.org/D100879
-            # The malloc alignment assumption is incorrect for jemalloc and causes
-            # mis-compilation in firefox.
-            # See: https://bugzilla.mozilla.org/show_bug.cgi?id=1741454
-            (metadata.getVersionFile "clang/revert-malloc-alignment-assumption.patch")
+          ++
+            lib.optional (lib.versions.major metadata.release_version == "13")
+              # Revert of https://reviews.llvm.org/D100879
+              # The malloc alignment assumption is incorrect for jemalloc and causes
+              # mis-compilation in firefox.
+              # See: https://bugzilla.mozilla.org/show_bug.cgi?id=1741454
+              (metadata.getVersionFile "clang/revert-malloc-alignment-assumption.patch")
           ++ lib.optional (lib.versionOlder metadata.release_version "17") (
             if lib.versionAtLeast metadata.release_version "14" then
               fetchpatch {
@@ -660,7 +684,7 @@ let
       lldbPlugins = lib.makeExtensible (
         lldbPlugins:
         let
-          callPackage = newScope ( lldbPlugins // tools // args // metadata );
+          callPackage = newScope (lldbPlugins // tools // args // metadata);
         in
         lib.recurseIntoAttrs { llef = callPackage ./lldb-plugins/llef.nix { }; }
       );
@@ -1063,7 +1087,7 @@ let
         ++ lib.optionals (lib.versionAtLeast metadata.release_version "13") [
           (metadata.getVersionFile "compiler-rt/armv6-scudo-libatomic.patch")
         ]
-        ++ lib.optional (lib.versionAtLeast metadata.release_version "19") (fetchpatch {
+        ++ lib.optional (lib.versions.major metadata.release_version == "19") (fetchpatch {
           url = "https://github.com/llvm/llvm-project/pull/99837/commits/14ae0a660a38e1feb151928a14f35ff0f4487351.patch";
           hash = "sha256-JykABCaNNhYhZQxCvKiBn54DZ5ZguksgCHnpdwWF2no=";
           relative = "compiler-rt";
@@ -1202,10 +1226,16 @@ let
       // lib.optionalAttrs (lib.versionAtLeast metadata.release_version "20") {
         libc-overlay = callPackage ./libc {
           isFullBuild = false;
+          # Use clang due to "gnu::naked" not working on aarch64.
+          # Issue: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=77882
+          stdenv = overrideCC stdenv buildLlvmTools.clang;
         };
 
         libc-full = callPackage ./libc {
           isFullBuild = true;
+          # Use clang due to "gnu::naked" not working on aarch64.
+          # Issue: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=77882
+          stdenv = overrideCC stdenv buildLlvmTools.clangNoLibcNoRt;
         };
 
         libc = if stdenv.targetPlatform.libc == "llvm" then libraries.libc-full else libraries.libc-overlay;

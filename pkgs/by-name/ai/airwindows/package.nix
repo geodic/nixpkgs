@@ -5,43 +5,24 @@
   lib,
   cmake,
   nix-update-script,
+  vst2-sdk,
 }:
-let
-  # adapted from oxefmsynth
-  vst-sdk = stdenv.mkDerivation {
-    dontConfigure = true;
-    dontPatch = true;
-    dontBuild = true;
-    dontStrip = true;
-    dontPatchELF = true;
-
-    name = "vstsdk3610_11_06_2018_build_37";
-    src = fetchzip {
-      url = "https://web.archive.org/web/20181016150224if_/https://download.steinberg.net/sdk_downloads/vstsdk3610_11_06_2018_build_37.zip";
-      sha256 = "0da16iwac590wphz2sm5afrfj42jrsnkr1bxcy93lj7a369ildkj";
-    };
-
-    installPhase = ''
-      cp -r VST2_SDK $out
-    '';
-  };
-in
 stdenv.mkDerivation {
   pname = "airwindows";
-  version = "0-unstable-2025-01-06";
+  version = "0-unstable-2025-02-16";
 
   src = fetchFromGitHub {
     owner = "airwindows";
     repo = "airwindows";
-    rev = "0ca33035253b9fc0c6c876592d9e5ff3a654cd10";
-    hash = "sha256-+AyB6y179BRWTvflA9Ld5utpF2scSJDszkGa8BCvPdM=";
+    rev = "6a9e1e2913c85edc21f4554b49089668f19cc924";
+    hash = "sha256-Lb7IawTn/JKm/UF8ArwYalJGzX0yZwhKden5e2TlBeI=";
   };
 
   # we patch helpers because honestly im spooked out by where those variables
   # came from.
   prePatch = ''
     mkdir -p plugins/LinuxVST/include
-    ln -s ${vst-sdk.out} plugins/LinuxVST/include/vstsdk
+    ln -s ${vst2-sdk} plugins/LinuxVST/include/vstsdk
   '';
 
   patches = [
@@ -62,7 +43,7 @@ stdenv.mkDerivation {
   ];
 
   buildInputs = [
-    vst-sdk
+    vst2-sdk
   ];
 
   installPhase = ''
@@ -82,7 +63,6 @@ stdenv.mkDerivation {
     platforms = lib.platforms.linux;
     license = [
       lib.licenses.mit
-      lib.licenses.unfree
     ];
     maintainers = [ lib.maintainers.l1npengtul ];
   };
