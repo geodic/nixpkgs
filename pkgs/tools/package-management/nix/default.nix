@@ -4,8 +4,8 @@
   stdenv,
   aws-sdk-cpp,
   boehmgc,
-  libgit2,
   callPackage,
+  generateSplicesForMkScope,
   fetchFromGitHub,
   fetchpatch2,
   runCommand,
@@ -200,6 +200,19 @@ let
       };
     };
 
+  # Factored out for when we have package sets for multiple versions of
+  # Nix.
+  #
+  # `nixPackages_*` would be the most regular name, analogous to
+  # `linuxPackages_*`, especially if we put other 3rd-party software in
+  # here, but `nixPackages_*` would also be *very* confusing to humans!
+  generateSplicesForNixComponents =
+    nixComponentsAttributeName:
+    generateSplicesForMkScope [
+      "nixVersions"
+      nixComponentsAttributeName
+    ];
+
 in
 lib.makeExtensible (
   self:
@@ -225,8 +238,8 @@ lib.makeExtensible (
           };
 
       nix_2_24 = common {
-        version = "2.24.12";
-        hash = "sha256-lPiheE0D146tstoUInOUf1451stezrd8j6H6w7+RCv8=";
+        version = "2.24.13";
+        hash = "sha256-lUsK8lAwaaTEM+KFML/6sYwaVAiSf70g1EfSDJNNrU0=";
         self_attribute_name = "nix_2_24";
       };
 
@@ -236,21 +249,16 @@ lib.makeExtensible (
         self_attribute_name = "nix_2_25";
       };
 
-      nix_2_26 = addTests "nix_2_26" (
-        callPackage ./vendor/2_26/componentized.nix { inherit (self.nix_2_24.meta) maintainers; }
+      nixComponents_2_26 = (
+        callPackage ./vendor/2_26/componentized.nix {
+          inherit (self.nix_2_24.meta) maintainers;
+          otherSplices = generateSplicesForNixComponents "nixComponents_2_26";
+        }
       );
 
-      git = common rec {
-        version = "2.25.0";
-        suffix = "pre20241101_${lib.substring 0 8 src.rev}";
-        src = fetchFromGitHub {
-          owner = "NixOS";
-          repo = "nix";
-          rev = "2e5759e3778c460efc5f7cfc4cb0b84827b5ffbe";
-          hash = "sha256-E1Sp0JHtbD1CaGO3UbBH6QajCtOGqcrVfPSKL0n63yo=";
-        };
-        self_attribute_name = "git";
-      };
+      # Note, this might eventually become an alias, as packages should
+      # depend on the components they need in `nixComponents_2_26`.
+      nix_2_26 = addTests "nix_2_26" self.nixComponents_2_26.nix-everything;
 
       latest = self.nix_2_26;
 
@@ -285,7 +293,8 @@ lib.makeExtensible (
         ) (lib.range 4 23)
       )
       // {
-        unstable = throw "nixVersions.unstable has been removed. For bleeding edge (Nix master, roughly weekly updated) use nixVersions.git, otherwise use nixVersions.latest.";
+        unstable = throw "nixVersions.unstable has been removed. use nixVersions.latest or the nix flake.";
+        git = throw "nixVersions.git has been removed. use nixVersions.latest or the nix flake.";
       }
     )
   )
