@@ -213,6 +213,7 @@ in
   atop = import ./atop.nix { inherit pkgs runTest; };
   atticd = runTest ./atticd.nix;
   atuin = runTest ./atuin.nix;
+  ax25 = handleTest ./ax25.nix { };
   audiobookshelf = runTest ./audiobookshelf.nix;
   auth-mysql = runTest ./auth-mysql.nix;
   authelia = runTest ./authelia.nix;
@@ -317,7 +318,6 @@ in
   coder = handleTest ./coder.nix { };
   collectd = handleTest ./collectd.nix { };
   commafeed = handleTest ./commafeed.nix { };
-  conduwuit = runTest ./matrix/conduwuit.nix;
   connman = handleTest ./connman.nix { };
   consul = handleTest ./consul.nix { };
   consul-template = handleTest ./consul-template.nix { };
@@ -369,7 +369,7 @@ in
   crabfit = handleTest ./crabfit.nix { };
   cri-o = handleTestOn [ "aarch64-linux" "x86_64-linux" ] ./cri-o.nix { };
   cryptpad = runTest ./cryptpad.nix;
-  cups-pdf = handleTest ./cups-pdf.nix { };
+  cups-pdf = runTest ./cups-pdf.nix;
   curl-impersonate = handleTest ./curl-impersonate.nix { };
   custom-ca = handleTest ./custom-ca.nix { };
   croc = handleTest ./croc.nix { };
@@ -460,7 +460,7 @@ in
   evcc = runTest ./evcc.nix;
   fail2ban = runTest ./fail2ban.nix;
   fakeroute = handleTest ./fakeroute.nix { };
-  fancontrol = handleTest ./fancontrol.nix { };
+  fancontrol = runTest ./fancontrol.nix;
   fanout = handleTest ./fanout.nix { };
   fcitx5 = handleTest ./fcitx5 { };
   fedimintd = runTest ./fedimintd.nix;
@@ -697,7 +697,7 @@ in
   kernel-latest-ath-user-regd = handleTest ./kernel-latest-ath-user-regd.nix { };
   kernel-rust = handleTest ./kernel-rust.nix { };
   keter = handleTest ./keter.nix { };
-  kexec = handleTest ./kexec.nix { };
+  kexec = runTest ./kexec.nix;
   keycloak = discoverTests (import ./keycloak.nix);
   keyd = handleTest ./keyd.nix { };
   keymap = handleTest ./keymap.nix { };
@@ -767,10 +767,10 @@ in
   magic-wormhole-mailbox-server = runTest ./magic-wormhole-mailbox-server.nix;
   magnetico = handleTest ./magnetico.nix { };
   mailcatcher = runTest ./mailcatcher.nix;
-  mailhog = handleTest ./mailhog.nix { };
+  mailhog = runTest ./mailhog.nix;
   mailpit = runTest ./mailpit.nix;
-  mailman = handleTest ./mailman.nix { };
-  man = handleTest ./man.nix { };
+  mailman = runTest ./mailman.nix;
+  man = runTest ./man.nix;
   mariadb-galera = handleTest ./mysql/mariadb-galera.nix { };
   marytts = handleTest ./marytts.nix { };
   mastodon = pkgs.recurseIntoAttrs (handleTest ./web-apps/mastodon { inherit handleTestOn; });
@@ -792,7 +792,7 @@ in
   mediatomb = handleTest ./mediatomb.nix { };
   mediawiki = handleTest ./mediawiki.nix { };
   meilisearch = handleTest ./meilisearch.nix { };
-  memcached = handleTest ./memcached.nix { };
+  memcached = runTest ./memcached.nix;
   merecat = handleTest ./merecat.nix { };
   metabase = handleTest ./metabase.nix { };
   mihomo = handleTest ./mihomo.nix { };
@@ -830,7 +830,7 @@ in
   mosquitto = runTest ./mosquitto.nix;
   moosefs = handleTest ./moosefs.nix { };
   movim = import ./web-apps/movim { inherit recurseIntoAttrs runTest; };
-  mpd = handleTest ./mpd.nix { };
+  mpd = runTest ./mpd.nix;
   mpv = runTest ./mpv.nix;
   mtp = handleTest ./mtp.nix { };
   multipass = handleTest ./multipass.nix { };
@@ -886,7 +886,7 @@ in
   # TODO: put in networking.nix after the test becomes more complete
   networkingProxy = handleTest ./networking-proxy.nix { };
   nextcloud = handleTest ./nextcloud { };
-  nextflow = handleTestOn [ "x86_64-linux" ] ./nextflow.nix { };
+  nextflow = runTestOn [ "x86_64-linux" ] ./nextflow.nix;
   nextjs-ollama-llm-ui = runTest ./web-apps/nextjs-ollama-llm-ui.nix;
   nexus = handleTest ./nexus.nix { };
   # TODO: Test nfsv3 + Kerberos
@@ -966,7 +966,7 @@ in
   nzbhydra2 = handleTest ./nzbhydra2.nix { };
   ocis = handleTest ./ocis.nix { };
   oddjobd = handleTestOn [ "x86_64-linux" "aarch64-linux" ] ./oddjobd.nix { };
-  obs-studio = handleTest ./obs-studio.nix { };
+  obs-studio = runTest ./obs-studio.nix;
   oh-my-zsh = handleTest ./oh-my-zsh.nix { };
   ollama = runTest ./ollama.nix;
   ollama-cuda = runTestOn [ "x86_64-linux" "aarch64-linux" ] ./ollama-cuda.nix;
@@ -1092,21 +1092,25 @@ in
   pretalx = runTest ./web-apps/pretalx.nix;
   prefect = runTest ./prefect.nix;
   pretix = runTest ./web-apps/pretix.nix;
-  printing-socket = handleTest ./printing.nix {
-    socket = true;
-    listenTcp = true;
+  printing-socket = runTest {
+    imports = [ ./printing.nix ];
+    _module.args.socket = true;
+    _module.args.listenTcp = true;
   };
-  printing-service = handleTest ./printing.nix {
-    socket = false;
-    listenTcp = true;
+  printing-service = runTest {
+    imports = [ ./printing.nix ];
+    _module.args.socket = false;
+    _module.args.listenTcp = true;
   };
-  printing-socket-notcp = handleTest ./printing.nix {
-    socket = true;
-    listenTcp = false;
+  printing-socket-notcp = runTest {
+    imports = [ ./printing.nix ];
+    _module.args.socket = true;
+    _module.args.listenTcp = false;
   };
-  printing-service-notcp = handleTest ./printing.nix {
-    socket = false;
-    listenTcp = false;
+  printing-service-notcp = runTest {
+    imports = [ ./printing.nix ];
+    _module.args.socket = false;
+    _module.args.listenTcp = false;
   };
   private-gpt = handleTest ./private-gpt.nix { };
   privatebin = runTest ./privatebin.nix;
@@ -1173,10 +1177,11 @@ in
   rsyslogd = handleTest ./rsyslogd.nix { };
   rtkit = runTest ./rtkit.nix;
   rtorrent = handleTest ./rtorrent.nix { };
+  rush = runTest ./rush.nix;
   rustls-libssl = handleTest ./rustls-libssl.nix { };
   rxe = handleTest ./rxe.nix { };
   sabnzbd = handleTest ./sabnzbd.nix { };
-  samba = handleTest ./samba.nix { };
+  samba = runTest ./samba.nix;
   samba-wsdd = handleTest ./samba-wsdd.nix { };
   sane = handleTest ./sane.nix { };
   sanoid = handleTest ./sanoid.nix { };
@@ -1201,7 +1206,7 @@ in
   shadowsocks = handleTest ./shadowsocks { };
   shattered-pixel-dungeon = handleTest ./shattered-pixel-dungeon.nix { };
   shiori = handleTest ./shiori.nix { };
-  signal-desktop = handleTest ./signal-desktop.nix { };
+  signal-desktop = runTest ./signal-desktop.nix;
   silverbullet = handleTest ./silverbullet.nix { };
   simple = handleTest ./simple.nix { };
   sing-box = handleTest ./sing-box.nix { };
@@ -1234,7 +1239,7 @@ in
   stargazer = runTest ./web-servers/stargazer.nix;
   starship = runTest ./starship.nix;
   stash = handleTestOn [ "x86_64-linux" "aarch64-linux" ] ./stash.nix { };
-  static-web-server = handleTest ./web-servers/static-web-server.nix { };
+  static-web-server = runTest ./web-servers/static-web-server.nix;
   step-ca = handleTestOn [ "x86_64-linux" ] ./step-ca.nix { };
   stratis = handleTest ./stratis { };
   strongswan-swanctl = handleTest ./strongswan-swanctl.nix { };
@@ -1321,6 +1326,7 @@ in
   systemd-portabled = handleTest ./systemd-portabled.nix { };
   systemd-repart = handleTest ./systemd-repart.nix { };
   systemd-resolved = handleTest ./systemd-resolved.nix { };
+  systemd-ssh-proxy = runTest ./systemd-ssh-proxy.nix;
   systemd-shutdown = handleTest ./systemd-shutdown.nix { };
   systemd-sysupdate = runTest ./systemd-sysupdate.nix;
   systemd-sysusers-mutable = runTest ./systemd-sysusers-mutable.nix;
@@ -1446,6 +1452,7 @@ in
   webhook = runTest ./webhook.nix;
   weblate = handleTest ./web-apps/weblate.nix { };
   whisparr = handleTest ./whisparr.nix { };
+  whoami = runTest ./whoami.nix;
   whoogle-search = handleTest ./whoogle-search.nix { };
   wiki-js = runTest ./wiki-js.nix;
   wine = handleTest ./wine.nix { };
@@ -1457,7 +1464,7 @@ in
   wpa_supplicant = import ./wpa_supplicant.nix { inherit pkgs runTest; };
   wordpress = runTest ./wordpress.nix;
   wrappers = handleTest ./wrappers.nix { };
-  writefreely = handleTest ./web-apps/writefreely.nix { };
+  writefreely = import ./web-apps/writefreely.nix { inherit pkgs runTest; };
   wstunnel = runTest ./wstunnel.nix;
   xandikos = runTest ./xandikos.nix;
   xautolock = runTest ./xautolock.nix;

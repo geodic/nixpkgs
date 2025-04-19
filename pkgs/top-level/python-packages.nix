@@ -1894,6 +1894,8 @@ self: super: with self; {
 
   block-io = callPackage ../development/python-modules/block-io { };
 
+  blockbuster = callPackage ../development/python-modules/blockbuster { };
+
   blockchain = callPackage ../development/python-modules/blockchain { };
 
   blockdiag = callPackage ../development/python-modules/blockdiag { };
@@ -2739,6 +2741,8 @@ self: super: with self; {
 
   conda-package-streaming = callPackage ../development/python-modules/conda-package-streaming { };
 
+  condense-json = callPackage ../development/python-modules/condense-json { };
+
   conduit = callPackage ../development/python-modules/conduit { };
 
   conduit-mpi = callPackage ../development/python-modules/conduit { mpiSupport = true; };
@@ -2941,6 +2945,8 @@ self: super: with self; {
   crysp = callPackage ../development/python-modules/crysp { };
 
   crytic-compile = callPackage ../development/python-modules/crytic-compile { };
+
+  csaf-tool = callPackage ../development/python-modules/csaf-tool { };
 
   cson = callPackage ../development/python-modules/cson { };
 
@@ -3482,6 +3488,8 @@ self: super: with self; {
 
   disnake = callPackage ../development/python-modules/disnake { };
 
+  disposable-email-domains = callPackage ../development/python-modules/disposable-email-domains { };
+
   dissect = callPackage ../development/python-modules/dissect { };
 
   dissect-archive = callPackage ../development/python-modules/dissect-archive { };
@@ -3873,6 +3881,8 @@ self: super: with self; {
   django-tagging = callPackage ../development/python-modules/django-tagging { };
 
   django-taggit = callPackage ../development/python-modules/django-taggit { };
+
+  django-tasks = callPackage ../development/python-modules/django-tasks { };
 
   django-tastypie = callPackage ../development/python-modules/django-tastypie { };
 
@@ -5165,6 +5175,8 @@ self: super: with self; {
 
   foolscap = callPackage ../development/python-modules/foolscap { };
 
+  forbiddenfruit = callPackage ../development/python-modules/forbiddenfruit { };
+
   fordpass = callPackage ../development/python-modules/fordpass { };
 
   forecast-solar = callPackage ../development/python-modules/forecast-solar { };
@@ -6077,6 +6089,8 @@ self: super: with self; {
 
   ha-philipsjs = callPackage ../development/python-modules/ha-philipsjs { };
 
+  ha-silabs-firmware-client = callPackage ../development/python-modules/ha-silabs-firmware-client { };
+
   habanero = callPackage ../development/python-modules/habanero { };
 
   habiticalib = callPackage ../development/python-modules/habiticalib { };
@@ -6660,6 +6674,8 @@ self: super: with self; {
   influxdb3-python = callPackage ../development/python-modules/influxdb3-python { };
 
   inform = callPackage ../development/python-modules/inform { };
+
+  ingredient-parser-nlp = callPackage ../development/python-modules/ingredient-parser-nlp { };
 
   iniconfig = callPackage ../development/python-modules/iniconfig { };
 
@@ -7429,6 +7445,8 @@ self: super: with self; {
 
   kurbopy = callPackage ../development/python-modules/kurbopy { };
 
+  kuzu = callPackage ../development/python-modules/kuzu { };
+
   l18n = callPackage ../development/python-modules/l18n { };
 
   labelbox = callPackage ../development/python-modules/labelbox { };
@@ -7632,6 +7650,8 @@ self: super: with self; {
 
   lib4sbom = callPackage ../development/python-modules/lib4sbom { };
 
+  lib4vex = callPackage ../development/python-modules/lib4vex { };
+
   libagent = callPackage ../development/python-modules/libagent { };
 
   libais = callPackage ../development/python-modules/libais { };
@@ -7740,6 +7760,8 @@ self: super: with self; {
       python3 = python;
     }
   );
+
+  libpass = callPackage ../development/python-modules/libpass { };
 
   libpcap = callPackage ../development/python-modules/libpcap {
     pkgsLibpcap = pkgs.libpcap; # Needs the C library
@@ -10989,13 +11011,14 @@ self: super: with self; {
     inherit (pkgs)
       freetype
       lcms2
+      libavif
       libimagequant
       libjpeg
       libraqm
       libtiff
       libwebp
       openjpeg
-      zlib
+      zlib-ng
       ;
     inherit (pkgs.xorg) libxcb;
   };
@@ -12653,6 +12676,8 @@ self: super: with self; {
 
   pymodbus = callPackage ../development/python-modules/pymodbus { };
 
+  pymodbus-repl = callPackage ../development/python-modules/pymodbus-repl { };
+
   pymodes = callPackage ../development/python-modules/pymodes { };
 
   pymonctl = callPackage ../development/python-modules/pymonctl { };
@@ -13472,6 +13497,8 @@ self: super: with self; {
 
   pytest-ansible = callPackage ../development/python-modules/pytest-ansible { };
 
+  pytest-archon = callPackage ../development/python-modules/pytest-archon { };
+
   pytest-arraydiff = callPackage ../development/python-modules/pytest-arraydiff { };
 
   pytest-astropy = callPackage ../development/python-modules/pytest-astropy { };
@@ -13679,6 +13706,8 @@ self: super: with self; {
   pytest-retry = callPackage ../development/python-modules/pytest-retry { };
 
   pytest-reverse = callPackage ../development/python-modules/pytest-reverse { };
+
+  pytest-run-parallel = callPackage ../development/python-modules/pytest-run-parallel { };
 
   pytest-ruff = callPackage ../development/python-modules/pytest-ruff { };
 
@@ -15374,9 +15403,7 @@ self: super: with self; {
 
   scikit-image = callPackage ../development/python-modules/scikit-image { };
 
-  scikit-learn = callPackage ../development/python-modules/scikit-learn {
-    inherit (pkgs) gfortran glibcLocales;
-  };
+  scikit-learn = callPackage ../development/python-modules/scikit-learn { };
 
   scikit-learn-extra = callPackage ../development/python-modules/scikit-learn-extra { };
 
@@ -15795,6 +15822,8 @@ self: super: with self; {
 
   six = callPackage ../development/python-modules/six { };
 
+  sixel = callPackage ../development/python-modules/sixel { };
+
   sjcl = callPackage ../development/python-modules/sjcl { };
 
   skein = callPackage ../development/python-modules/skein { };
@@ -15945,6 +15974,10 @@ self: super: with self; {
     callPackage ../development/python-modules/snakemake-interface-executor-plugins
       { };
 
+  snakemake-interface-logger-plugins =
+    callPackage ../development/python-modules/snakemake-interface-logger-plugins
+      { };
+
   snakemake-interface-report-plugins =
     callPackage ../development/python-modules/snakemake-interface-report-plugins
       { };
@@ -16077,18 +16110,7 @@ self: super: with self; {
 
   soxr = callPackage ../development/python-modules/soxr { libsoxr = pkgs.soxr; };
 
-  spacy = callPackage ../development/python-modules/spacy {
-    # fix error: ‘_PyCFrame’ has no member named ‘use_tracing’
-    # see: https://aur.archlinux.org/packages/python-spacy
-    cython_0 = cython_0.overridePythonAttrs (old: rec {
-      version = "0.29.37";
-      src = pkgs.fetchPypi {
-        pname = "Cython";
-        inherit version;
-        hash = "sha256-+BPUpt2Ure5dT/JmGR0dlb9tQWSk+sxTVCLAIbJQTPs=";
-      };
-    });
-  };
+  spacy = callPackage ../development/python-modules/spacy { };
 
   spacy-alignments = callPackage ../development/python-modules/spacy-alignments { };
 
@@ -16770,6 +16792,8 @@ self: super: with self; {
 
   symbolic = callPackage ../development/python-modules/symbolic { };
 
+  symbolic_10 = callPackage ../development/python-modules/symbolic/10.nix { };
+
   symengine = callPackage ../development/python-modules/symengine { inherit (pkgs) symengine; };
 
   symfc = callPackage ../development/python-modules/symfc { };
@@ -16946,8 +16970,6 @@ self: super: with self; {
 
   tensorflow-bin = callPackage ../development/python-modules/tensorflow/bin.nix {
     inherit (pkgs.config) cudaSupport;
-    # https://www.tensorflow.org/install/source#gpu
-    cudaPackages = pkgs.cudaPackages_12;
   };
 
   tensorflow-build =
@@ -17159,14 +17181,7 @@ self: super: with self; {
 
   thespian = callPackage ../development/python-modules/thespian { };
 
-  thinc = callPackage ../development/python-modules/thinc {
-    inherit (pkgs.darwin.apple_sdk.frameworks)
-      Accelerate
-      CoreFoundation
-      CoreGraphics
-      CoreVideo
-      ;
-  };
+  thinc = callPackage ../development/python-modules/thinc { };
 
   thinqconnect = callPackage ../development/python-modules/thinqconnect { };
 
@@ -17369,9 +17384,7 @@ self: super: with self; {
 
   torchaudio = callPackage ../development/python-modules/torchaudio { };
 
-  torchaudio-bin = callPackage ../development/python-modules/torchaudio/bin.nix {
-    cudaPackages = pkgs.cudaPackages_12;
-  };
+  torchaudio-bin = callPackage ../development/python-modules/torchaudio/bin.nix { };
 
   torchbench = callPackage ../development/python-modules/torchbench { };
 
@@ -17405,9 +17418,7 @@ self: super: with self; {
 
   torchvision = callPackage ../development/python-modules/torchvision { };
 
-  torchvision-bin = callPackage ../development/python-modules/torchvision/bin.nix {
-    cudaPackages = pkgs.cudaPackages_12;
-  };
+  torchvision-bin = callPackage ../development/python-modules/torchvision/bin.nix { };
 
   tornado = callPackage ../development/python-modules/tornado { };
 
@@ -17489,6 +17500,24 @@ self: super: with self; {
     callPackage ../development/python-modules/tree-sitter-embedded-template
       { };
 
+  tree-sitter-grammars = lib.recurseIntoAttrs (
+    lib.mapAttrs
+      (
+        name: grammarDrv:
+        callPackage ../development/python-modules/tree-sitter-grammars { inherit name grammarDrv; }
+      )
+      (
+        # Filtering grammars not compatible with current py-tree-sitter version
+        lib.filterAttrs (
+          name: value:
+          !(builtins.elem name [
+            "tree-sitter-sql"
+            "tree-sitter-templ"
+          ])
+        ) pkgs.tree-sitter.builtGrammars
+      )
+  );
+
   tree-sitter-html = callPackage ../development/python-modules/tree-sitter-html { };
 
   tree-sitter-javascript = callPackage ../development/python-modules/tree-sitter-javascript { };
@@ -17500,6 +17529,8 @@ self: super: with self; {
   tree-sitter-languages = callPackage ../development/python-modules/tree-sitter-languages { };
 
   tree-sitter-make = callPackage ../development/python-modules/tree-sitter-make { };
+
+  tree-sitter-markdown = callPackage ../development/python-modules/tree-sitter-markdown { };
 
   tree-sitter-python = callPackage ../development/python-modules/tree-sitter-python { };
 
@@ -18832,6 +18863,8 @@ self: super: with self; {
   whool = callPackage ../development/python-modules/whool { };
 
   whoosh = callPackage ../development/python-modules/whoosh { };
+
+  whoosh-reloaded = callPackage ../development/python-modules/whoosh-reloaded { };
 
   widgetsnbextension = callPackage ../development/python-modules/widgetsnbextension { };
 
