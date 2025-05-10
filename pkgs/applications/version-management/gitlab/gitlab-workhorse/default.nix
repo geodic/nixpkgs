@@ -10,7 +10,7 @@ in
 buildGoModule rec {
   pname = "gitlab-workhorse";
 
-  version = "17.11.1";
+  version = "17.11.2";
 
   # nixpkgs-update: no auto update
   src = fetchFromGitLab {
@@ -31,7 +31,7 @@ buildGoModule rec {
   meta = with lib; {
     homepage = "http://www.gitlab.com/";
     platforms = platforms.linux;
-    maintainers = teams.gitlab.members;
+    teams = [ teams.gitlab ];
     license = licenses.mit;
   };
 }

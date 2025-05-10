@@ -19,6 +19,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
   pname = "xdg-desktop-portal-cosmic";
   version = "1.0.0-alpha.7";
 
+  # nixpkgs-update: no auto update
   src = fetchFromGitHub {
     owner = "pop-os";
     repo = "xdg-desktop-portal-cosmic";
@@ -100,7 +101,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     homepage = "https://github.com/pop-os/xdg-desktop-portal-cosmic";
     description = "XDG Desktop Portal for the COSMIC Desktop Environment";
     license = lib.licenses.gpl3Only;
-    maintainers = lib.teams.cosmic.members;
+    teams = [ lib.teams.cosmic ];
     mainProgram = "xdg-desktop-portal-cosmic";
     platforms = lib.platforms.linux;
   };

@@ -14,6 +14,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
   pname = "cosmic-osd";
   version = "1.0.0-alpha.7";
 
+  # nixpkgs-update: no auto update
   src = fetchFromGitHub {
     owner = "pop-os";
     repo = "cosmic-osd";
@@ -62,7 +63,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     description = "OSD for the COSMIC Desktop Environment";
     mainProgram = "cosmic-osd";
     license = lib.licenses.gpl3Only;
-    maintainers = lib.teams.cosmic.members;
+    teams = [ lib.teams.cosmic ];
     platforms = lib.platforms.linux;
   };
 })

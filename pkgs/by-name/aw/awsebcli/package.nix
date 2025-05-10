@@ -25,14 +25,14 @@ in
 
 python.pkgs.buildPythonApplication rec {
   pname = "awsebcli";
-  version = "3.23.2";
+  version = "3.23.3";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "aws";
     repo = "aws-elastic-beanstalk-cli";
     tag = version;
-    hash = "sha256-nZP3eepp3hUT2hCxz75vTP1N2akOZPQhyFRN6ecJvU4=";
+    hash = "sha256-Jaj90NRCwaxRQQlB4s4Us+liYiNohpwRsHuvKM5WmbU=";
   };
 
   pythonRelaxDeps = [
@@ -85,6 +85,10 @@ python.pkgs.buildPythonApplication rec {
 
     # AssertionError: Expected 'echo' to be called once. Called 2 times
     "test_multiple_modules__one_or_more_of_the_specified_modules_lacks_an_env_yaml"
+
+    # fails on hydra only on aarch64-linux
+    # ebcli.objects.exceptions.CredentialsError: Operation Denied. You appear to have no credentials
+    "test_aws_eb_profile_environment_variable_found__profile_exists_in_credentials_file"
   ];
 
   meta = with lib; {

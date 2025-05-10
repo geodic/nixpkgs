@@ -29,6 +29,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
   pname = "cosmic-settings";
   version = "1.0.0-alpha.7";
 
+  # nixpkgs-update: no auto update
   src = fetchFromGitHub {
     owner = "pop-os";
     repo = "cosmic-settings";
@@ -102,7 +103,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     homepage = "https://github.com/pop-os/cosmic-settings";
     license = lib.licenses.gpl3Only;
     mainProgram = "cosmic-settings";
-    maintainers = lib.teams.cosmic.members;
+    teams = [ lib.teams.cosmic ];
     platforms = lib.platforms.linux;
   };
 })
