@@ -32,21 +32,21 @@
   pkg-config,
   polkit,
   python3Packages,
+  sscg,
   systemd,
   udev,
   xmlto,
-  which,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "cockpit";
-  version = "336.2";
+  version = "338";
 
   src = fetchFromGitHub {
     owner = "cockpit-project";
     repo = "cockpit";
     tag = finalAttrs.version;
-    hash = "sha256-QRtKxrOIGZuAj+NrnXDpnejJQ/lm0hP/JqZyVZn/VL0=";
+    hash = "sha256-ZNvMLzkDh1SuyHuChWM0YykSYu152JHvjrKVm+u0Upw=";
     fetchSubmodules = true;
   };
 
@@ -66,7 +66,6 @@ stdenv.mkDerivation (finalAttrs: {
     python3Packages.setuptools
     systemd
     xmlto
-    which
   ];
 
   buildInputs = [
@@ -80,6 +79,7 @@ stdenv.mkDerivation (finalAttrs: {
     udev
     python3Packages.pygobject3
     python3Packages.pip
+    bashInteractive
   ];
 
   postPatch = ''
@@ -98,7 +98,7 @@ stdenv.mkDerivation (finalAttrs: {
       --replace-fail 'const char *cockpit_config_dirs[] = { PACKAGE_SYSCONF_DIR' 'const char *cockpit_config_dirs[] = { "/etc"'
 
     substituteInPlace src/**/*.c \
-      --replace '"/bin/sh"' "\"$(which sh)\""
+      --replace-quiet "/bin/sh" "${lib.getExe bashInteractive}"
 
     # instruct users with problems to create a nixpkgs issue instead of nagging upstream directly
     substituteInPlace configure.ac \
@@ -167,6 +167,7 @@ stdenv.mkDerivation (finalAttrs: {
       --prefix PATH : ${
         lib.makeBinPath [
           coreutils
+          sscg
           openssl
         ]
       } \

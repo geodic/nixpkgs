@@ -11,6 +11,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "cosmic-icons";
   version = "1.0.0-alpha.7";
 
+  # nixpkgs-update: no auto update
   src = fetchFromGitHub {
     owner = "pop-os";
     repo = "cosmic-icons";
@@ -48,6 +49,6 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     license = with lib.licenses; [
       cc-by-sa-40
     ];
-    maintainers = lib.teams.cosmic.members;
+    teams = [ lib.teams.cosmic ];
   };
 })
