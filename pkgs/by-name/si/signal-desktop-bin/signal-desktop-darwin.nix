@@ -6,11 +6,11 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "signal-desktop-bin";
-  version = "7.51.0";
+  version = "7.55.0";
 
   src = fetchurl {
     url = "https://updates.signal.org/desktop/signal-desktop-mac-universal-${finalAttrs.version}.dmg";
-    hash = "sha256-dUcBvKbGVsEUxOSv8u/jjuvYjHar2+zbv+/ZRS85w1w=";
+    hash = "sha256-9PD4SDTACjKSBqIdv3CFtKhRKA5ugbQe2AcWA4hFoqs=";
   };
   sourceRoot = ".";
 

@@ -33,9 +33,9 @@ stdenv.mkDerivation rec {
       qt6.qtwebengine
       qt6Packages.qtkeychain
     ]
-    ++ (lib.optionals stdenv.hostPlatform.isDarwin [
+    ++ lib.optionals stdenv.hostPlatform.isDarwin [
       cups
-    ]);
+    ];
 
   nativeBuildInputs = [
     pkg-config
@@ -56,7 +56,6 @@ stdenv.mkDerivation rec {
     homepage = "https://github.com/foldynl/QLog";
     maintainers = with lib.maintainers; [
       oliver-koss
-      mkg20001
     ];
     platforms = with lib.platforms; unix;
   };

@@ -123,7 +123,10 @@ stdenv.mkDerivation (
         "Chat"
       ];
       startupWMClass = "Element";
-      mimeTypes = [ "x-scheme-handler/element" ];
+      mimeTypes = [
+        "x-scheme-handler/element"
+        "x-scheme-handler/io.element.desktop"
+      ];
     };
 
     postFixup = lib.optionalString stdenv.hostPlatform.isDarwin ''
@@ -151,7 +154,7 @@ stdenv.mkDerivation (
       homepage = "https://element.io/";
       changelog = "https://github.com/element-hq/element-desktop/blob/v${finalAttrs.version}/CHANGELOG.md";
       license = licenses.asl20;
-      maintainers = teams.matrix.members;
+      teams = [ teams.matrix ];
       inherit (electron.meta) platforms;
       mainProgram = "element-desktop";
     };
