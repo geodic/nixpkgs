@@ -1,17 +1,14 @@
 {
   lib,
-  stdenv,
   rustPlatform,
   fetchFromGitHub,
   pkg-config,
   openssl,
   git,
-  darwin,
   makeWrapper,
 }:
 
 let
-  inherit (darwin.apple_sdk.frameworks) CoreServices;
   pname = "cargo-mobile2";
   version = "0.20.0";
 in
@@ -19,7 +16,7 @@ rustPlatform.buildRustPackage {
   inherit pname version;
   src = fetchFromGitHub {
     owner = "tauri-apps";
-    repo = pname;
+    repo = "cargo-mobile2";
     rev = "cargo-mobile2-v${version}";
     hash = "sha256-7/ol4Jb/2s007LeSMo6YYDT5vipsZZF6O4hfJ7ylHGg=";
   };
@@ -37,7 +34,7 @@ rustPlatform.buildRustPackage {
     export CARGO_HOME=$out/share/
   '';
 
-  buildInputs = [ openssl ] ++ lib.optionals stdenv.hostPlatform.isDarwin [ CoreServices ];
+  buildInputs = [ openssl ];
   nativeBuildInputs = [
     pkg-config
     git

@@ -17,17 +17,17 @@
 
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "turbo-unwrapped";
-  version = "2.5.1";
+  version = "2.5.3";
 
   src = fetchFromGitHub {
     owner = "vercel";
     repo = "turborepo";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-qwTFD9lIHY5sBliB5ri5AOvW5Cr/nvM+u7e7JS0CAKQ=";
+    hash = "sha256-QcyRuLd+nMoCyrtX1j+8vFtsgVKC2KsQBAUjsvfG+rM=";
   };
 
   useFetchCargoVendor = true;
-  cargoHash = "sha256-7pcJ7NUTLe9rxLWnviJbWtTg1P145BzL1ZfWcuxPlSc=";
+  cargoHash = "sha256-zEkpWu/L5plFCnvliAtfu19ljB4pnrEesVQZOycOKRk=";
 
   nativeBuildInputs =
     [

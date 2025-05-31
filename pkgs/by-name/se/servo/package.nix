@@ -61,13 +61,13 @@ in
 
 rustPlatform.buildRustPackage {
   pname = "servo";
-  version = "0-unstable-2025-04-18";
+  version = "0-unstable-2025-05-25";
 
   src = fetchFromGitHub {
     owner = "servo";
     repo = "servo";
-    rev = "2ee8427665099987f715296d4d55b6388a480c08";
-    hash = "sha256-fAUTBfoFGZqdZylXvY7h+0Ol0xd1CDNyJxx3rlhI7ss=";
+    rev = "3a04f4195eb650f092c44d5a05fee178b9e84fbe";
+    hash = "sha256-7dbt7h4qUPWgsKBt0wo9by6yTB4034SzlzdqMXmw2Xg=";
     # Breaks reproducibility depending on whether the picked commit
     # has other ref-names or not, which may change over time, i.e. with
     # "ref-names: HEAD -> main" as long this commit is the branch HEAD
@@ -78,7 +78,7 @@ rustPlatform.buildRustPackage {
   };
 
   useFetchCargoVendor = true;
-  cargoHash = "sha256-hGLSGbT4089R7BP4pkIQL/YNQlVfIDqW9sUJv+yCUv8=";
+  cargoHash = "sha256-XTtM7yU1kpzK2cspnYdgp7yrt4Xk7xeQ98rmBgu46Tg=";
 
   # set `HOME` to a temp dir for write access
   # Fix invalid option errors during linking (https://github.com/mozilla/nixpkgs-mozilla/commit/c72ff151a3e25f14182569679ed4cd22ef352328)
@@ -131,6 +131,11 @@ rustPlatform.buildRustPackage {
     ++ lib.optionals stdenv.hostPlatform.isDarwin [
       apple-sdk_14
     ];
+
+  # Builds with additional features for aarch64, see https://github.com/servo/servo/issues/36819
+  buildFeatures = lib.optionals stdenv.hostPlatform.isAarch64 [
+    "servo_allocator/use-system-allocator"
+  ];
 
   env.NIX_CFLAGS_COMPILE = lib.optionalString stdenv.hostPlatform.isDarwin "-I${lib.getInclude stdenv.cc.libcxx}/include/c++/v1";
 

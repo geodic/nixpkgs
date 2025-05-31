@@ -33,13 +33,13 @@
 
 buildPythonPackage rec {
   pname = "python-openstackclient";
-  version = "8.0.0";
+  version = "8.1.0";
   pyproject = true;
 
   src = fetchPypi {
     pname = "python_openstackclient";
     inherit version;
-    hash = "sha256-W3peBok/gztdKW0BnFDULHNo43dI7mvo6bFWVbmZQk4=";
+    hash = "sha256-m5xCs/a8S0tICmJU/FYKywGXh4MeCUOW2/msmuVxrks=";
   };
 
   build-system = [
@@ -107,6 +107,6 @@ buildPythonPackage rec {
     mainProgram = "openstack";
     homepage = "https://github.com/openstack/python-openstackclient";
     license = licenses.asl20;
-    maintainers = teams.openstack.members;
+    teams = [ teams.openstack ];
   };
 }
