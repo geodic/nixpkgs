@@ -14,6 +14,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
   pname = "cosmic-session";
   version = "1.0.0-alpha.7";
 
+  # nixpkgs-update: no auto update
   src = fetchFromGitHub {
     owner = "pop-os";
     repo = "cosmic-session";
@@ -68,7 +69,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     description = "Session manager for the COSMIC desktop environment";
     license = lib.licenses.gpl3Only;
     mainProgram = "cosmic-session";
-    maintainers = lib.teams.cosmic.members;
+    teams = [ lib.teams.cosmic ];
     platforms = lib.platforms.linux;
   };
 })

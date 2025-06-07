@@ -12,6 +12,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
   pname = "cosmic-screenshot";
   version = "1.0.0-alpha.7";
 
+  # nixpkgs-update: no auto update
   src = fetchFromGitHub {
     owner = "pop-os";
     repo = "cosmic-screenshot";
@@ -51,7 +52,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     homepage = "https://github.com/pop-os/cosmic-screenshot";
     description = "Screenshot tool for the COSMIC Desktop Environment";
     license = licenses.gpl3Only;
-    maintainers = teams.cosmic.members;
+    teams = [ teams.cosmic ];
     platforms = platforms.linux;
     mainProgram = "cosmic-screenshot";
   };

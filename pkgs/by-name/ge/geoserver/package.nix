@@ -8,21 +8,28 @@
   jre,
   unzip,
 }:
-stdenv.mkDerivation (finalAttrs: rec {
+stdenv.mkDerivation (finalAttrs: {
   pname = "geoserver";
   version = "2.27.0";
 
   src = fetchurl {
-    url = "mirror://sourceforge/geoserver/GeoServer/${version}/geoserver-${version}-bin.zip";
+    url = "mirror://sourceforge/geoserver/GeoServer/${finalAttrs.version}/geoserver-${finalAttrs.version}-bin.zip";
     hash = "sha256-bhL+u+BoKgW2cwOXEzaq0h07dKFz9u9WB2jW8nAF0vI=";
   };
+
+  sourceRoot = "source";
+
+  unpackPhase = ''
+    runHook preUnpack
+    unzip $src -d "$sourceRoot"
+    runHook postUnpack
+  '';
 
   patches = [
     # set GEOSERVER_DATA_DIR to current working directory if not provided
     ./data-dir.patch
   ];
 
-  sourceRoot = ".";
   nativeBuildInputs = [
     unzip
     makeWrapper
@@ -90,7 +97,7 @@ stdenv.mkDerivation (finalAttrs: rec {
     homepage = "https://geoserver.org/";
     sourceProvenance = with sourceTypes; [ binaryBytecode ];
     license = licenses.gpl2Plus;
-    maintainers = teams.geospatial.members;
+    teams = [ teams.geospatial ];
     platforms = platforms.all;
   };
 })

@@ -16,16 +16,16 @@ let
   variants = {
     # ./update-zen.py zen
     zen = {
-      version = "6.14.3"; # zen
+      version = "6.14.9"; # zen
       suffix = "zen1"; # zen
-      sha256 = "17r4gmxbgs0aizlp35pdq515ag50zc3q20fxapbya4yp5qs6ncz0"; # zen
+      sha256 = "1v28cdv8dyn5181z242f63ns6b472jx8a7wmw77n5wijj8fv5ba1"; # zen
       isLqx = false;
     };
     # ./update-zen.py lqx
     lqx = {
-      version = "6.14.3"; # lqx
+      version = "6.14.9"; # lqx
       suffix = "lqx1"; # lqx
-      sha256 = "1xqhjvi7a6gbsm3zq3gwc5hl8xw17afqx1b1db0p1cp5c9xn3vxa"; # lqx
+      sha256 = "1f8sram3xabv119pznpixpm5igyxf33wkg4v8fm5nh9c9g91q19j"; # lqx
       isLqx = true;
     };
   };
@@ -157,6 +157,7 @@ let
             jerrysm64
             axertheaxe
           ];
+          teams = [ ];
           description =
             "Built using the best configuration and kernel sources for desktop, multimedia, and gaming workloads."
             + lib.optionalString isLqx " (Same as linux_zen, but less aggressive release schedule and additional extra config)";
