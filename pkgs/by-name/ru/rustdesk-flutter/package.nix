@@ -64,14 +64,14 @@ let
 in
 flutter.buildFlutterApplication rec {
   pname = "rustdesk";
-  version = "1.3.9";
+  version = "1.4.0";
 
   src = fetchFromGitHub {
     owner = "rustdesk";
     repo = "rustdesk";
     tag = version;
     fetchSubmodules = true;
-    hash = "sha256-DvFsHrYLdAaEh2cXF8Zp5AvyG8Okiy2guW/r2x7Kz4U=";
+    hash = "sha256-fuS2ENrMlzk1AIZGZp4M3ZbsHks5TFW2pRQEGzsTThQ=";
   };
 
   strictDeps = true;
@@ -101,7 +101,7 @@ flutter.buildFlutterApplication rec {
       src
       patches
       ;
-    hash = "sha256-D64W2+eBR2RGiN+puJW3QIO1334SgOOHv5fws5r3wmg=";
+    hash = "sha256-9DjfGfTs8/J9XPZmWXCibyRib1/abnWzznQn6A5Tw2I=";
   };
 
   dontCargoBuild = true;
@@ -153,8 +153,6 @@ flutter.buildFlutterApplication rec {
 
   patches = [
     ./make-build-reproducible.patch
-    # Multiple version of core-foundation-sys will make fetchCargoVendor unhappy. Keep one of it.
-    ./update-cargo-lock.patch
   ];
 
   prepareBuildRunner = ''
@@ -251,7 +249,7 @@ flutter.buildFlutterApplication rec {
     homepage = "https://rustdesk.com";
     changelog = "https://github.com/rustdesk/rustdesk/releases/${version}";
     license = lib.licenses.agpl3Only;
-    maintainers = lib.teams.helsinki-systems.members;
+    teams = [ lib.teams.helsinki-systems ];
     mainProgram = "rustdesk";
     platforms = lib.platforms.linux; # should work on darwin as well but I have no machine to test with
   };

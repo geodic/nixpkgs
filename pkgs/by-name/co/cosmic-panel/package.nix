@@ -13,6 +13,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
   pname = "cosmic-panel";
   version = "1.0.0-alpha.7";
 
+  # nixpkgs-update: no auto update
   src = fetchFromGitHub {
     owner = "pop-os";
     repo = "cosmic-panel";
@@ -64,7 +65,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     description = "Panel for the COSMIC Desktop Environment";
     mainProgram = "cosmic-panel";
     license = lib.licenses.gpl3Only;
-    maintainers = lib.teams.cosmic.members;
+    teams = [ lib.teams.cosmic ];
     platforms = lib.platforms.linux;
   };
 })

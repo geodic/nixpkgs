@@ -14,6 +14,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
   pname = "cosmic-files";
   version = "1.0.0-alpha.7";
 
+  # nixpkgs-update: no auto update
   src = fetchFromGitHub {
     owner = "pop-os";
     repo = "cosmic-files";
@@ -115,7 +116,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     description = "File Manager for the COSMIC Desktop Environment";
     license = lib.licenses.gpl3Only;
     mainProgram = "cosmic-files";
-    maintainers = lib.teams.cosmic.members;
+    teams = [ lib.teams.cosmic ];
     platforms = lib.platforms.linux;
   };
 })

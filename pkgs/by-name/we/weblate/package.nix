@@ -16,7 +16,8 @@
 let
   python = python3.override {
     packageOverrides = final: prev: {
-      django = prev.django_5;
+      # https://github.com/django-crispy-forms/crispy-bootstrap3/issues/12
+      django = prev.django_5_1;
       djangorestframework = prev.djangorestframework.overridePythonAttrs (old: {
         # https://github.com/encode/django-rest-framework/discussions/9342
         disabledTests = (old.disabledTests or [ ]) ++ [ "test_invalid_inputs" ];
@@ -26,7 +27,7 @@ let
 in
 python.pkgs.buildPythonApplication rec {
   pname = "weblate";
-  version = "5.11.1";
+  version = "5.11.4";
 
   pyproject = true;
 
@@ -39,7 +40,7 @@ python.pkgs.buildPythonApplication rec {
     owner = "WeblateOrg";
     repo = "weblate";
     tag = "weblate-${version}";
-    hash = "sha256-RUyJ/QbSbxl1A7Z+sFMSz9GwTDoV3fA5w27NCJO7bRI=";
+    hash = "sha256-0/PYl8A95r0xulaSawnSyrSqB7SiEBgd9TVP7OIla00=";
   };
 
   patches = [
@@ -81,7 +82,7 @@ python.pkgs.buildPythonApplication rec {
       celery
       certifi
       charset-normalizer
-      django-crispy-bootstrap3
+      crispy-bootstrap3
       cryptography
       cssselect
       cython
@@ -148,6 +149,8 @@ python.pkgs.buildPythonApplication rec {
     ++ drf-spectacular.optional-dependencies.sidecar
     ++ drf-standardized-errors.optional-dependencies.openapi;
 
+  pythonRelaxDeps = [ "django-otp-webauthn" ];
+
   optional-dependencies = {
     postgres = with python.pkgs; [ psycopg ];
   };
@@ -174,7 +177,7 @@ python.pkgs.buildPythonApplication rec {
   meta = {
     description = "Web based translation tool with tight version control integration";
     homepage = "https://weblate.org/";
-    changelog = "https://github.com/WeblateOrg/weblate/releases/tag/weblate-${version}";
+    changelog = "https://github.com/WeblateOrg/weblate/releases/tag/${src.tag}";
     license = with lib.licenses; [
       gpl3Plus
       mit

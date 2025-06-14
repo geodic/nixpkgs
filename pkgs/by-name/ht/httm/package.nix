@@ -7,17 +7,17 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "httm";
-  version = "0.46.8";
+  version = "0.48.3";
 
   src = fetchFromGitHub {
     owner = "kimono-koans";
     repo = "httm";
     rev = version;
-    hash = "sha256-IGhEKtu4RMhI7VYn6I4M9eFY6MdcWxiHsu90rY0l8sw=";
+    hash = "sha256-55rUNITdz8lM0yuQQrNhXCKxwx4m7FPVhE1usEAVj0I=";
   };
 
   useFetchCargoVendor = true;
-  cargoHash = "sha256-LmQ3+yqSO7vhnV6XshUSSe6QkYVcradVsmIcLrdNE94=";
+  cargoHash = "sha256-Hbn+PlmJ9FiwHme3kXjvG7m2rkgR4nGnpTT04JHJrao=";
 
   nativeBuildInputs = [ installShellFiles ];
 
@@ -39,12 +39,12 @@ rustPlatform.buildRustPackage rec {
     install -Dm644 README.md $out/share/doc/README.md
   '';
 
-  meta = with lib; {
+  meta = {
     description = "Interactive, file-level Time Machine-like tool for ZFS/btrfs";
     homepage = "https://github.com/kimono-koans/httm";
     changelog = "https://github.com/kimono-koans/httm/releases/tag/${version}";
-    license = licenses.mpl20;
-    maintainers = with maintainers; [ wyndon ];
+    license = lib.licenses.mpl20;
+    maintainers = with lib.maintainers; [ wyndon ];
     mainProgram = "httm";
   };
 }
