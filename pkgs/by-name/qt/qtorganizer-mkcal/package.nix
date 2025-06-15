@@ -31,12 +31,12 @@ stdenv.mkDerivation (finalAttrs: {
 
   nativeBuildInputs = [
     cmake
+    extra-cmake-modules
     pkg-config
   ];
 
   buildInputs =
     [
-      extra-cmake-modules
       mkcal
     ]
     ++ (with libsForQt5; [
@@ -82,7 +82,7 @@ stdenv.mkDerivation (finalAttrs: {
     description = "QtOrganizer plugin using sqlite via mKCal";
     homepage = "https://github.com/dcaliste/qtorganizer-mkcal";
     license = lib.licenses.bsd3;
-    maintainers = lib.teams.lomiri.members;
+    teams = [ lib.teams.lomiri ];
     platforms = lib.platforms.linux;
   };
 })

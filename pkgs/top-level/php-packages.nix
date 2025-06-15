@@ -31,7 +31,6 @@
   openldap,
   openssl_1_1,
   openssl,
-  overrideSDK,
   pam,
   pcre2,
   bison,
@@ -206,7 +205,7 @@ lib.makeScope pkgs.newScope (
           meta = {
             description = "PHP upstream extension: ${name}";
             inherit (php.meta)
-              maintainers
+              teams
               homepage
               license
               platforms
@@ -284,12 +283,7 @@ lib.makeScope pkgs.newScope (
 
         couchbase = callPackage ../development/php-packages/couchbase { };
 
-        datadog_trace = callPackage ../development/php-packages/datadog_trace {
-          buildPecl = buildPecl.override {
-            stdenv = if stdenv.hostPlatform.isDarwin then overrideSDK stdenv "11.0" else stdenv;
-          };
-          inherit (pkgs) darwin;
-        };
+        datadog_trace = callPackage ../development/php-packages/datadog_trace { };
 
         decimal = callPackage ../development/php-packages/decimal { };
 
@@ -328,9 +322,7 @@ lib.makeScope pkgs.newScope (
 
         memprof = callPackage ../development/php-packages/memprof { };
 
-        mongodb = callPackage ../development/php-packages/mongodb {
-          inherit (pkgs) darwin;
-        };
+        mongodb = callPackage ../development/php-packages/mongodb { };
 
         msgpack = callPackage ../development/php-packages/msgpack { };
 
@@ -364,7 +356,7 @@ lib.makeScope pkgs.newScope (
                 sed -i -e 's|OCISDKMANINC=`.*$|OCISDKMANINC="${pkgs.oracle-instantclient.dev}/include"|' config.m4
               '';
 
-              meta.maintainers = lib.teams.php.members;
+              meta.teams = [ lib.teams.php ];
             };
 
         pdo_sqlsrv = callPackage ../development/php-packages/pdo_sqlsrv { };
@@ -387,9 +379,7 @@ lib.makeScope pkgs.newScope (
 
         smbclient = callPackage ../development/php-packages/smbclient { };
 
-        snuffleupagus = callPackage ../development/php-packages/snuffleupagus {
-          inherit (pkgs) darwin;
-        };
+        snuffleupagus = callPackage ../development/php-packages/snuffleupagus { };
 
         spx = callPackage ../development/php-packages/spx { };
 

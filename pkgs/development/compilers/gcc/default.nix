@@ -38,7 +38,7 @@
   enablePlugin ? (lib.systems.equals stdenv.hostPlatform stdenv.buildPlatform), # Whether to support user-supplied plug-ins
   name ? "gcc",
   libcCross ? null,
-  threadsCross ? null, # for MinGW
+  threadsCross ? { }, # for MinGW
   withoutTargetLibc ? false,
   flex,
   gnused ? null,
@@ -449,7 +449,7 @@ pipe
             description
             longDescription
             platforms
-            maintainers
+            teams
             ;
         }
         // optionalAttrs (!atLeast11) {
