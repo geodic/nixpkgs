@@ -9988,6 +9988,12 @@
     githubId = 44377258;
     name = "Heitor Augusto";
   };
+  hekazu = {
+    name = "Henri Peurasaari";
+    email = "henri.peurasaari@helsinki.fi";
+    github = "hekazu";
+    githubId = 16819092;
+  };
   helium = {
     email = "helium.dev@tuta.io";
     github = "helium18";
@@ -16709,12 +16715,6 @@
     github = "MikePlayle";
     githubId = 16974598;
     name = "Mike Playle";
-  };
-  mkazulak = {
-    email = "kazulakm@gmail.com";
-    github = "mulderr";
-    githubId = 5698461;
-    name = "Maciej Kazulak";
   };
   mkez = {
     email = "matias+nix@zwinger.fi";
@@ -24073,9 +24073,9 @@
   stepbrobd = {
     name = "Yifei Sun";
     email = "ysun@hey.com";
+    matrix = "@stepbrobd:matrix.org";
     github = "stepbrobd";
     githubId = 81826728;
-    keys = [ { fingerprint = "AC7C 52E6 BA2F E8DE 8F0F  5D78 D973 170F 9B86 DB70"; } ];
   };
   stephank = {
     email = "nix@stephank.nl";
@@ -24982,6 +24982,12 @@
     github = "Tyler-Hardin";
     githubId = 5404976;
     name = "Tyler Hardin";
+  };
+  thattemperature = {
+    name = "That Temperature";
+    email = "2719023332@qq.com";
+    github = "thattemperature";
+    githubId = 125476238;
   };
   thblt = {
     name = "Thibault Polge";
